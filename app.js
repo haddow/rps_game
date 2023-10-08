@@ -42,6 +42,11 @@ function checkGameConclusion() {
 function displayWinner(winnerType) {
     let winnerDisplay = document.getElementById("winnerDisplay");
     let winnerSprite = SPRITES.find(s => s.type === winnerType);
+
+    if (!winnerSprite) {
+        return;
+    }
+
     winnerDisplay.textContent = `The winner is ${winnerSprite.emoji} (${winnerSprite.type})!`;
     winnerDisplay.style.display = "block";
 
@@ -117,6 +122,12 @@ function moveAwayFromEnemy(sprite, enemies) {
     let moveY = 0;
 
     let wallEscape = wallEscapeSprites.find(item => item.sprite === sprite);
+
+    let nearestEnemy = getNearestTarget(sprite, enemies);
+
+    if (!nearestEnemy) {
+        return; // Exit the function early
+    }
 
     if (!wallEscape) {
         // Sprite hit the boundary for the first time, choose a direction
